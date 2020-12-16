@@ -15,20 +15,33 @@ function ObjLoader() {
         if(ObjLoader.prototype._loader)
             return ObjLoader.prototype._loader;
         
-        let gm = new GlMath();
-        let objects = new Map();
+        const gm = new GlMath();
+        const objects = new Map();
+        
+        const fileObj = function() {   
+            this.v = [gm.vec4()];
+            this.f = [];
+            
+            Object.defineProperty(this, "indices", {
+                get: function() { return this.f; },
+                enumerable: false,
+                configurable: false,
+            });
+            Object.defineProperty(this, "vertices", {
+                get: function() { return this.v; },
+                enumerable: false,
+                configurable: false,
+            });
+        }
                 
         // get object with name
         this.obj = function(name) {
             return objects.get(name);
         }
             
-        this.parse = async function(filename, name) {
+        this.load = async function(filename, name) {
                     
-                let fileObject = {
-                        v: [gm.vec4()],
-                        f: [],
-                };
+                let fileObject = new fileObj();
                 
                 // load file
                 let response = await fetch(filename);
@@ -59,23 +72,6 @@ function ObjLoader() {
 					throw new ObjFileNotExistError(filename, name);
                 }
         }
-        
-        this.getVertexArray = function(obj1) {
-            
-            
-            let gm = new GlMath();
-            let vertexArray = [];
-            
-            obj1.f.forEach(function(item) {
-                vertexArray.push(obj1.v[item[0]]);
-                vertexArray.push(obj1.v[item[1]]);
-                vertexArray.push(obj1.v[item[2]]);
-            });
-            
-            return vertexArray;
-        }
-        
-        
         
         ObjLoader.prototype._loader = this;
 }
