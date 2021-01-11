@@ -153,7 +153,7 @@ export function TreePositionGraph(treePositions) {
 
 
     this.sp = function(node1, node2) {
-        if(!this.edges.get(node1)) {
+        if(!this.edges.get(node1) || !this.edges.get(node2)) {
             node1 = findNode(node1);
             node2 = findNode(node2);
         }
