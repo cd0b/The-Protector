@@ -56,11 +56,13 @@ async function createLand() {
         return texture;
     }
 
-    const grassTexture = wrapTexture(await loadTexture('Grass_001_COLOR.jpg'));
-    const dispTexture = wrapTexture(await loadTexture('Grass_001_DISP.png'));
-    const normTexture = wrapTexture(await loadTexture('Grass_001_NORM.jpg'));
-    const occTexture = wrapTexture(await loadTexture('Grass_001_OCC.jpg'));
-    const bumpTexture = wrapTexture(new three.Texture(createPerlinNoiseCanvas(1024, 1024)));
+    const grassFolder = 'Grass1/';
+    const grassTexture = wrapTexture(await loadTexture(grassFolder + 'color.jpg'));
+    const dispTexture = wrapTexture(await loadTexture(grassFolder + 'disp.png'));
+    const normTexture = wrapTexture(await loadTexture(grassFolder + 'norm.jpg'));
+    const occTexture = wrapTexture(await loadTexture(grassFolder + 'occ.jpg'));
+    //const specTexture = wrapTexture(await loadTexture(grassFolder + 'spec.jpg'));
+    //const bumpTexture = wrapTexture(new three.Texture(createPerlinNoiseCanvas(1024, 1024)));
 
     // material
     const material = new three.MeshPhongMaterial({
@@ -69,8 +71,8 @@ async function createLand() {
         displacementMap: dispTexture,
         normalMap: normTexture,
         aoMap: occTexture,
+        //specularMap: specTexture,
     });
-    material.bumpMap = bumpTexture;
 
     // create plane
     const mesh = new three.Mesh(geometry, material);

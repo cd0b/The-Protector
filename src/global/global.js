@@ -32,6 +32,12 @@ const Global = function() {
     this.charAnimations = ["idle", "petting animal", "run", "run back"];
     this.charScale = 0.03;
 
+
+    this.treeGraphPartition = 5;
+
+
+    this.birdModels = ["bird1"];
+
     
 };
 

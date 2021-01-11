@@ -7,11 +7,20 @@ import {setSkybox} from './utils/setSkybox.js';
 import {setBgImage} from './utils/setBgImage.js'
 import {createCharacter} from './utils/createCharacter.js';
 import {createTrees} from './utils/createTrees.js';
+import {createBirds} from './utils/createBirds.js';
+
+
+
 
 
 import {loadModel} from './utils/loadModel.js';
 import {GLTFLoader} from './../lib/three.js-master/examples/jsm/loaders/GLTFLoader.js';
-import { FBXLoader } from '../lib/three.js-master/examples/jsm/loaders/FBXLoader.js';
+import { FBXLoader } from './../lib/three.js-master/examples/jsm/loaders/FBXLoader.js';
+import {TreePositionGraph} from './utils/TreePositionGraph/TreePositionGraph.js';
+import {TreePos} from './utils/TreePositionGraph/TreePos.js'
+
+
+
 
 
 
@@ -51,13 +60,12 @@ export async function _TEST_() {
 
     
     createCharacter();
-    createTrees();
+    await createTrees();
+    createBirds();
 
 
-    
-
-    
-    
+    const graph = glb.treePositionGraph;
 
 
+    alert("asd");
 };

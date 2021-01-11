@@ -5,7 +5,7 @@
 import * as three from './../../lib/three.js-master/build/three.module.js';
 import {glb} from './../global/global.js';
 import {loadModel} from './../utils/loadModel.js';
-import {CharacterController} from './../utils/CharacterController.js';
+import {CharacterController} from './../utils/CharacterController/CharacterController.js';
 import {ThirdPersonCamera} from './../utils/CharacterController/ThirdPersonCamera.js';
 
 
