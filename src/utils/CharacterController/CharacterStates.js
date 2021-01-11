@@ -7,6 +7,7 @@ import * as three from './../../../lib/three.js-master/build/three.module.js';
 function State(parent) {
     this._parent = parent;
 
+    this.getName = function() {}
     this.enter = function() {}
     this.exit = function() {}
     this.update = function() {}

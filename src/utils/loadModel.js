@@ -48,6 +48,9 @@ export async function loadModel(name, type, scale, animationList) {
         loader.load(`scene.gltf`, (gltf) => {
             const model = gltf.scene;
             model.scale.setScalar(scale);
+            model.traverse(c => {
+                c.castShadow = true;
+            });
             model.namelessActionList = [];
 
             const animations = gltf.animations;

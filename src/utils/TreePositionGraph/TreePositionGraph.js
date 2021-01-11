@@ -160,7 +160,6 @@ export function TreePositionGraph(treePositions) {
 
         const searchKey = node1.toString() + " " + node2.toString();
         if(dijkstraCache.has(searchKey)) {
-            console.log("cache: " + searchKey);
             return dijkstraCache.get(searchKey);
         }
         
