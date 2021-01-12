@@ -67,5 +67,6 @@ export async function _TEST_() {
     const graph = glb.treePositionGraph;
 
 
-    alert("asd");
+
+    //alert("asd");
 };

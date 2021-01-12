@@ -165,7 +165,35 @@ export function TreePositionGraph(treePositions) {
         
         dijkstra(node1);
 
-        return dijkstraCache.get(searchKey);
+        return [...dijkstraCache.get(searchKey)];
+    }
+
+
+
+
+
+    this.getRandomList = function() {
+        if(dijkstraCache.size > 0) {
+            const random = Math.round(Math.random() * dijkstraCache.size);
+            const ite = dijkstraCache.values();
+            let res = ite.next();
+            for(let i = 1; i < random; i++)
+                res = ite.next();
+            
+            return [...res.value];
+        } 
+        
+        dijkstra(this.getRandomNode());
+        return this.getRandomList();
+    }
+
+
+
+
+
+    this.getRandomNode = function() {
+        const random = Math.round(Math.random() * (this.nodes.length - 1));
+        return this.nodes[random];
     }
 
 

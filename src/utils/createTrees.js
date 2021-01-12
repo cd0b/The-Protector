@@ -40,6 +40,8 @@ export async function createTrees() {
     await createTree('tree1', 0.02, 150, -400);
     await createTree('tree2', 3, 400, -400);
 
+    await createTree('tree1', 0.02, 0, 0);
+
     glb.treePositionGraph = new TreePositionGraph(treePositions);
 
 }

@@ -6,54 +6,36 @@
 import {FlyToTreeState, IdleOnTreeState, FlyToGroundState, IdleOnGroundState, EatState, SickState, DieState} from './BirdStates.js';
 
 
-function FiniteStateMachine() {
+export function BirdFiniteStateMachine(proxy) {
 
-    this._states = {};
-    this._currentState = null;
-    this._previousState = null;
+    this.states = {};
+    this.currentState = null;
+    this.previousState = null;
 
     this.addState = function(name, type) {
-        this._states[name] = type;
+        this.states[name] = type;
     }
-
 
     this.setState = function(name) {
-        this._previousState = this._currentState;
-
-        if(this._previousState) {
-            if(this._previousState.getName() === name)
+        this.previousState = this.currentState;
+        
+        if(this.previousState) {
+            if(this.previousState.getName() === name)
                 return;
-            this._previousState.exit();
+            this.previousState.exit();
         }
 
-
-        const state = new this._states[name](this);
-        this._currentState = state;
-        state.enter(this._previousState);
+        this.currentState = new this.states[name](this);;
+        this.currentState.enter(this.previousState);
     }
-
-
 
     this.update = function(timeElapsed, input) {
-        if(this._currentState) {
-            this._currentState.update(timeElapsed, input);
+        if(this.currentState) {
+            this.currentState.update(timeElapsed, input);
         }
     }
 
-}
-
-
-
-
-
-
-
-
-
-export function BirdFiniteStateMachine(proxy) {
-    this.__proto__ = new FiniteStateMachine();
-
-    this._proxy = proxy;
+    this.proxy = proxy;
 
     this.addState("flyToTree", FlyToTreeState);
     this.addState("idleOnTree", IdleOnTreeState);
@@ -62,4 +44,5 @@ export function BirdFiniteStateMachine(proxy) {
     this.addState("eat", EatState);
     this.addState("sick", SickState);
     this.addState("die", DieState);
+
 }
