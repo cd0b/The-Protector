@@ -31,6 +31,8 @@ const Global = function() {
     this.charName = "jollen";
     this.charAnimations = ["idle", "petting animal", "run", "run back"];
     this.charScale = 0.03;
+    this.char = null;
+    this.charController = null;
 
 
     this.treeGraphPartition = 5;
@@ -38,6 +40,17 @@ const Global = function() {
 
     this.birdModels = ["bird1"];
 
+    this.birdCharRange = 20;
+
+
+
+    this.garbageModels = ["garbage1"];
+    this.garbageScales = [0.3];
+    this.garbageHighs = [-1.0];
+    this.garbageRange = [5,15];
+    this.garbageController = null;
+    this.maxGarbageCount = 20;
+    this.garbageCreationTime = 1;
     
 };
 

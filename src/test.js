@@ -8,6 +8,7 @@ import {setBgImage} from './utils/setBgImage.js'
 import {createCharacter} from './utils/createCharacter.js';
 import {createTrees} from './utils/createTrees.js';
 import {createBirds} from './utils/createBirds.js';
+import {GarbageController} from './utils/GarbageController/GarbageController.js';
 
 
 
@@ -65,6 +66,8 @@ export async function _TEST_() {
 
 
     const graph = glb.treePositionGraph;
+
+    glb.garbageController = new GarbageController();
 
 
 

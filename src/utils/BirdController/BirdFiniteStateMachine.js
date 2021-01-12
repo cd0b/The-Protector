@@ -16,7 +16,7 @@ export function BirdFiniteStateMachine(proxy) {
         this.states[name] = type;
     }
 
-    this.setState = function(name) {
+    this.setState = function(name, params) {
         this.previousState = this.currentState;
         
         if(this.previousState) {
@@ -26,7 +26,7 @@ export function BirdFiniteStateMachine(proxy) {
         }
 
         this.currentState = new this.states[name](this);;
-        this.currentState.enter(this.previousState);
+        this.currentState.enter(this.previousState, params);
     }
 
     this.update = function(timeElapsed, input) {

@@ -16,6 +16,7 @@ export async function createCharacter() {
     const controller = new CharacterController({ model: char, });
 
     glb.scene.add(char);
+    glb.char = char;
     
     new ThirdPersonCamera({camera: glb.camera, target: controller});
 

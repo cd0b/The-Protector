@@ -105,7 +105,8 @@ export function FlyToTreeState(stateMachine) {
     }
 
     this.exit = function() {
-        this.action.stop();
+        if(this.action)
+            this.action.stop();
     }
 }
 
@@ -175,7 +176,8 @@ export function IdleOnTreeState(stateMachine) {
     }
 
     this.exit = function() {
-        this.action.stop();
+        if(this.action)
+            this.action.stop();
     }
 }
 
@@ -186,19 +188,103 @@ export function IdleOnTreeState(stateMachine) {
 
 export function FlyToGroundState(stateMachine) {
     this.__proto__ = new State(stateMachine);
+    this.action = null;
+    this.actionSpeed = 10;
+    this.target = null;
+    this.isWaited = false;
+    this.wait = 0;
+    this.garbage = null;
 
     this.getName = function() {
         return "flyToGround";
     }
 
     this.enter = function(previousState) {
-        this.stateMachine.setState("flyToTree");
+        const proxy = this.stateMachine.proxy;
+        const input = proxy.input;
+        
+        if(!input.target.garbageList || input.target.garbageList.length == 0) {
+            this.stateMachine.setState("flyToTree");
+            return;
+        }
+
+        this.action = this.stateMachine.proxy.actions.flyToGround;
+        if(this.action) {
+            this.action.reset();
+            this.action.play();
+        }
+
+
+        const garbage = input.target.garbageList[randInt(0, input.target.garbageList.length - 1)];
+
+        this.target = {
+            x: garbage.position.x,
+            y: 0,
+            z: garbage.position.z,
+        };
+
+        this.garbage = garbage;
     }
 
     this.update = function(timeElapsed, input) {
+
+        if(this.action)
+            this.action.getMixer().update(timeElapsed * this.actionSpeed);
+
+        if(collision(glb.char.position, this.target, glb.birdCharRange)) {
+            this.stateMachine.setState("flyToTree");
+        }
+
+        const proxy = this.stateMachine.proxy;
+        const model = proxy.model;
+
+        /* movement */
+        const target = new three.Vector3(this.target.x, this.target.y, this.target.z);
+        const position = proxy.position;
+        const movDirection = new three.Vector3().subVectors(target, position).normalize();
+        const direction = new three.Vector3(0,0,1).applyQuaternion(model.quaternion).normalize();
+
+        const _R = model.quaternion.clone();
+        let angleY;
+        {
+            angleY = Math.acos(new three.Vector3(direction.x, 0, direction.z).dot(new three.Vector3(movDirection.x, 0, movDirection.z)));
+            angleY *= 0.001;
+            angleY = angleY.toFixed(3);
+        }
+        const _QY = new three.Quaternion().setFromAxisAngle(new three.Vector3(0,1,0), angleY * proxy.velocity);
+        _R.multiply(_QY);
+
+        if(position.y > 0)
+            model.position.add(new three.Vector3(0, -0.001 * proxy.velocity, 0));
+        else   
+            model.position.y = 0;
+
+
+        model.quaternion.copy(_R);
+        model.position.add(direction.multiplyScalar(0.005 * proxy.velocity));
+        proxy.position.copy(model.position);
+
+        if(collision(proxy.position, this.target, 0.01 * 1.5 * proxy.velocity) && !this.isWaited) {
+            this.isWaited = true;
+            this.wait = 30;
+        }
+
+        this.wait--;
+
+        if(this.wait <= 0 && this.isWaited) {
+            const newDirection = new three.Vector3(0,0,1).applyQuaternion(model.quaternion).normalize();
+            const newMovDirection = new three.Vector3().subVectors(target, proxy.position).normalize();
+
+            const _Q = new three.Quaternion().setFromUnitVectors(newDirection, newMovDirection);
+            model.quaternion.multiply(_Q);
+
+            this.stateMachine.setState("idleOnGround", {target: this.target, garbage: this.garbage});
+        }
     }
 
     this.exit = function() {
+        if(this.action)
+            this.action.stop();
     }
 }
 
@@ -209,9 +295,50 @@ export function FlyToGroundState(stateMachine) {
 
 export function IdleOnGroundState(stateMachine) {
     this.__proto__ = new State(stateMachine);
+    this.action = null;
+    this.actionSpeed = 10;
+    this.wait = 0;
+    this.target = null;
+    this.garbage = null;
 
     this.getName = function() {
         return "idleOnGround";
+    }
+
+    this.enter = function(previousState, params) {
+        this.action = this.stateMachine.proxy.actions.IdleOnGround;
+        if(this.action) {
+            this.action.reset();
+            this.action.play();
+        }
+
+        this.wait = 10;
+
+        this.target = params.target;
+        this.garbage = params.garbage;
+    }
+
+    this.update = function(timeElapsed) {
+        if(this.action)
+            this.action.getMixer().update(timeElapsed * this.actionSpeed);
+
+        if(collision(glb.char.position, this.target, glb.birdCharRange)) {
+            this.stateMachine.setState("flyToTree");
+        }
+
+        if(this.garbage.removed) {
+            this.stateMachine.setState("flyToGround");
+        }
+
+        this.wait--;
+
+        if(this.wait <= 0)
+            this.stateMachine.setState("eat", { target: this.target, garbage: this.garbage});
+    }
+
+    this.exit = function() {
+        if(this.action)
+            this.action.stop();
     }
 }
 
@@ -221,9 +348,51 @@ export function IdleOnGroundState(stateMachine) {
 
 export function EatState(stateMachine) {
     this.__proto__ = new State(stateMachine);
+    this.action = null;
+    this.actionSpeed = 10;
+    this.wait = null;
+    this.garbage = null;
+    this.target = null;
 
     this.getName = function() {
         return "eat";
+    }
+
+    this.enter = function(previousState, params) {
+        this.action = this.stateMachine.proxy.actions.eat;
+        if(this.action) {
+            this.action.reset();
+            this.action.play();
+        }
+
+        this.wait = 50;
+
+        this.target = params.target;
+        this.garbage = params.garbage;
+    }
+
+    this.update = function(timeElapsed) {
+        if(this.action)
+            this.action.getMixer().update(timeElapsed * this.actionSpeed);
+
+        if(collision(glb.char.position, this.target, glb.birdCharRange)) {
+            this.stateMachine.setState("flyToTree");
+        }
+
+        if(this.garbage.removed)
+            this.stateMachine.setState("sick");
+
+        this.wait--;
+
+        if(this.wait <= 0) {
+            glb.garbageController.removeGarbage(this.garbage);
+            this.stateMachine.setState("sick");
+        }
+    }
+
+    this.exit = function() {
+        if(this.action)
+            this.action.stop();
     }
 
     
@@ -236,9 +405,49 @@ export function EatState(stateMachine) {
 
 export function SickState(stateMachine) {
     this.__proto__ = new State(stateMachine);
+    this.action = null;
+    this.actionSpeed = 10;
+    this.isWaited = false;
+    this.wait = 200;
+    this.healed = false;
 
     this.getName = function() {
         return "sick";
+    }
+
+    this.enter = function(previousState) {
+        this.action = this.stateMachine.proxy.actions.sick;
+        if(this.action) {
+            this.action.reset();
+            this.action.play();
+        }
+    }
+
+    this.update = function(timeElapsed, input) {
+        if(this.action)
+            this.action.getMixer().update(timeElapsed * this.actionSpeed);
+
+        if(collision(this.stateMachine.proxy.model.position, glb.char.position, 20) && !this.isWaited) {
+            if(glb.charController._stateMachine._currentState.getName() === "pettingAnimal") {
+                this.isWaited = true;
+                this.wait = 120;
+                this.healed = true;
+            }
+        }
+
+        this.wait--;
+
+        if(this.wait <= 0) {
+            if(this.healed)
+                this.stateMachine.setState("flyToTree");
+            else
+                this.stateMachine.setState("die");
+        }
+    }
+
+    this.exit = function() {
+        if(this.action)
+            this.action.stop();
     }
 }
 
@@ -252,5 +461,9 @@ export function DieState(stateMachine) {
 
     this.getName = function() {
         return "die";
+    }
+
+    this.enter = function() {
+        this.stateMachine.proxy.model.position.y = -100;
     }
 }

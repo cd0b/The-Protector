@@ -116,6 +116,7 @@ export function CharacterController(params) {
     }
 
     glb.controllers.push(this);
+    glb.charController = this;
     this._stateMachine.setState("idle");
 
 }
