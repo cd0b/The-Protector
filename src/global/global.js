@@ -26,31 +26,31 @@ const Global = function() {
     this.animationMixers = [];
     this.controllers = [];
 
-    this.landSize = 1000;
+    this.landSize = 100;
 
     this.charName = "jollen";
     this.charAnimations = ["idle", "petting animal", "run", "run back"];
     this.charScale = 0.03;
     this.char = null;
     this.charController = null;
-
+    this.charGarbageRange = 8;
+    this.charBirdRunRange = 16;
+    this.charBirdHealRange = 8;
 
     this.treeGraphPartition = 5;
 
 
     this.birdModels = ["bird1"];
 
-    this.birdCharRange = 20;
-
-
+    this.birdCharRange = this.charBirdRunRange;
 
     this.garbageModels = ["garbage1"];
     this.garbageScales = [0.3];
     this.garbageHighs = [-1.0];
     this.garbageRange = [5,15];
     this.garbageController = null;
-    this.maxGarbageCount = 20;
-    this.garbageCreationTime = 1;
+    this.maxGarbageCount = 2;
+    this.garbageCreationTime = 5;
     
 };
 

@@ -375,7 +375,7 @@ export function EatState(stateMachine) {
         if(this.action)
             this.action.getMixer().update(timeElapsed * this.actionSpeed);
 
-        if(collision(glb.char.position, this.target, glb.birdCharRange)) {
+        if(collision(glb.char.position, this.target, glb.birdCharRange) || this.garbage.removedByChar) {
             this.stateMachine.setState("flyToTree");
         }
 
@@ -427,7 +427,7 @@ export function SickState(stateMachine) {
         if(this.action)
             this.action.getMixer().update(timeElapsed * this.actionSpeed);
 
-        if(collision(this.stateMachine.proxy.model.position, glb.char.position, 20) && !this.isWaited) {
+        if(collision(this.stateMachine.proxy.model.position, glb.char.position, glb.charBirdHealRange) && !this.isWaited) {
             if(glb.charController._stateMachine._currentState.getName() === "pettingAnimal") {
                 this.isWaited = true;
                 this.wait = 120;

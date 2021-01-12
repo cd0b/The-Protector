@@ -25,22 +25,23 @@ export async function createTrees() {
 
     // use this function to create new three
     // await createTree(name, scale, positionX, positionZ);
-    await createTree('tree1', 0.02, -450, 200);
-    await createTree('tree2', 3, -250, 300);
+    const mp = 0.1;
+    await createTree('tree1', 0.02, -450*mp, 200*mp);
+    await createTree('tree2', 3, -250*mp, 300*mp);
 
-    await createTree('tree1', 0.02, 0, 200);
-    await createTree('tree2', 3, 200,200);
+    await createTree('tree1', 0.02, 0*mp, 200*mp);
+    await createTree('tree2', 3, 200*mp,200*mp);
 
-    await createTree('tree1', 0.02, 450, 300);
-    await createTree('tree2', 3, -400, -400);
+    await createTree('tree1', 0.02, 450*mp, 300*mp);
+    await createTree('tree2', 3, -400*mp, -400*mp);
 
-    await createTree('tree1', 0.02, -150, -400);
-    await createTree('tree2', 3, 0, -400);
+    await createTree('tree1', 0.02, -150 * mp, -400 *mp);
+    await createTree('tree2', 3, 0 * mp, -400 * mp);
 
-    await createTree('tree1', 0.02, 150, -400);
-    await createTree('tree2', 3, 400, -400);
+    await createTree('tree1', 0.02, 150 * mp, -400 * mp);
+    await createTree('tree2', 3, 400 * mp, -400 * mp);
 
-    await createTree('tree1', 0.02, 0, 0);
+    await createTree('tree1', 0.02, 0 * mp, 0 * mp);
 
     glb.treePositionGraph = new TreePositionGraph(treePositions);
 

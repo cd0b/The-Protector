@@ -9,6 +9,15 @@ import {loadModel} from './../loadModel.js';
 
 
 
+function collision(pos, targetPos, tol) {
+    if(pos.x < targetPos.x + tol && pos.y < targetPos.y + tol && pos.z < targetPos.z + tol)
+        if(pos.x > targetPos.x - tol && pos.y > targetPos.y - tol && pos.z > targetPos.z - tol)
+            return true;
+    return false;
+}
+
+
+
 
 export function GarbageController() {
 
@@ -33,7 +42,7 @@ export function GarbageController() {
 
     this.removeGarbage = function(garbage, removedByChar) {
 
-        if(!garbage)
+        if(!garbage || garbage.removed || garbage.removedByChar)
             return;
 
         const tree = this.garbageMap.get(garbage);
@@ -80,6 +89,7 @@ export function GarbageController() {
             targetPosition.garbageList.push(garbage);
             this.garbageMap.set(garbage, targetPosition);
             garbage.removed = false;
+            garbage.removedByChar = false;
         });
     }
 
@@ -97,6 +107,24 @@ export function GarbageController() {
         this.lastCreationTime += timeElapsed;
 
     }
+
+
+
+    window.addEventListener("keydown", function(e) {
+        if(e.code === "KeyE") {
+            const iter = this.garbageMap.keys();
+            
+            for(let garbage of iter) {
+                if(collision(garbage.position, glb.char.position, glb.charGarbageRange)) {
+                    this.removeGarbage(garbage, true);
+                    break;
+                }
+            }
+
+        }
+    }.bind(this), false);
+
+
 
 
     glb.controllers.push(this);
