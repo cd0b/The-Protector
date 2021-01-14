@@ -11,10 +11,10 @@ import {BirdFiniteStateMachine} from './BirdFiniteStateMachine.js';
 export function BirdController(params) {
 
     this.input = new BirdControllerInput();
-    this.stateMachine = new BirdFiniteStateMachine(new BirdControllerProxy(params, this.input));
+    this.stateMachine = new BirdFiniteStateMachine(new BirdControllerProxy(params, this.input, this));
 
     this.update = function(timeElapsed) {
-        this.stateMachine.update(timeElapsed, this.input);
+        this.stateMachine.update(timeElapsed, this.input); 
     }
 
     this.stateMachine.setState("flyToTree");

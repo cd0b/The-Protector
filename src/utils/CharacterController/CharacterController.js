@@ -55,6 +55,21 @@ export function CharacterController(params) {
     this.update = function(timeInSecods) {
         this._stateMachine.update(timeInSecods, this._input);
 
+        // map sea collision
+        if(glb.char.position.x>glb.landSize/2){
+            glb.char.position.x = glb.landSize/2-0.001;
+        }
+        if(glb.char.position.x<-glb.landSize/2){
+            glb.char.position.x = -glb.landSize/2+0.001;
+        }
+        if(glb.char.position.z>glb.landSize/2){
+            glb.char.position.z = glb.landSize/2-0.001;
+        }
+        if(glb.char.position.z<-glb.landSize/2){
+            glb.char.position.z = -glb.landSize/2+0.001; 
+        }
+
+
         const velocity = this._velocity;
         const frameDecceleration = new three.Vector3(
             velocity.x * this._decceleration.x,

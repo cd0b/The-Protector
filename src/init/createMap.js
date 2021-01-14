@@ -65,7 +65,7 @@ async function createLand() {
     //const bumpTexture = wrapTexture(new three.Texture(createPerlinNoiseCanvas(1024, 1024)));
 
     // material
-    const material = new three.MeshPhongMaterial({
+    const material = new three.MeshStandardMaterial({
         color: 0x202020,
         map: grassTexture,
         displacementMap: dispTexture,
@@ -76,10 +76,10 @@ async function createLand() {
 
     // create plane
     const mesh = new three.Mesh(geometry, material);
-
+    mesh.receiveShadow = true;
+    mesh.rotation.x = -0.5 * Math.PI;
 
     // add to scene.
-    mesh.rotation.x = -0.5 * Math.PI;
     glb.scene.add(mesh);
 
     glb.land = mesh;

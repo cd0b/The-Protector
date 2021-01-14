@@ -2,13 +2,14 @@
 
 import { glb } from "../../global/global.js";
 
-export function BirdControllerProxy(params, input) {
+export function BirdControllerProxy(params, input, controller) {
 
     this.model = params.model;
     this.high = params.high;
     this.position = params.position;
     this.velocity = params.velocity;
     this.input = input;
+    this.controller = controller;
     this.actions = {};
 
     /* remove mixers from glb.animationMixers */

@@ -102,8 +102,6 @@ export function GarbageController() {
             return;
         }
 
-        console.log(this.garbageMap.size);
-
         this.lastCreationTime += timeElapsed;
 
     }

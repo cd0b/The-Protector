@@ -15,6 +15,8 @@ const Global = function() {
 
     this.projectFolder = "Game";
 
+    this.audioLocation = this.getPath(this.projectFolder, "audio");
+
     this.textureLocation = this.getPath(this.projectFolder, "images/textures/");
     this.cubeTextureLocation = this.getPath(this.textureLocation, "cube/");
 
@@ -26,7 +28,7 @@ const Global = function() {
     this.animationMixers = [];
     this.controllers = [];
 
-    this.landSize = 100;
+    this.landSize = 150;
 
     this.charName = "jollen";
     this.charAnimations = ["idle", "petting animal", "run", "run back"];
@@ -41,8 +43,17 @@ const Global = function() {
 
 
     this.birdModels = ["bird1"];
-
+    this.birdCount = 10;
     this.birdCharRange = this.charBirdRunRange;
+    this.birdIdleOnTreeWaitMin = 3;
+    this.birdIdleOnTreeWaitMax = 10;
+    this.birdFlyToGroundWait = 4;
+    this.birdFlyToGroundWaitAfterCollision = 2;
+    this.birdIdleOnGroundWait = 2;
+    this.birdEatWait = 5;
+    this.birdSickWait = 5;
+    this.birdHealedWait = 3;
+    this.birdSounds = ["bird1.ogg"];
 
     this.garbageModels = ["garbage1"];
     this.garbageScales = [0.3];
@@ -51,6 +62,8 @@ const Global = function() {
     this.garbageController = null;
     this.maxGarbageCount = 2;
     this.garbageCreationTime = 5;
+
+    
     
 };
 

@@ -11,7 +11,7 @@ export function createCamera() {
         0.1,
         glb.skyboxSize,
     );
-    camera.position.set(0,3,5);
+    camera.position.set(0,10,20);
     camera.lookAt(0, 3, 0);
     glb.camera = camera;
 

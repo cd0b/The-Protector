@@ -124,7 +124,8 @@ export function IdleOnTreeState(stateMachine) {
     this.fakeVelocity = 0.09 * this.stateMachine.proxy.velocity;
     this.quaternion = null;
 
-    this.wait = 400;
+    this.wait = glb.birdIdleOnTreeWaitMin;
+    this.wait = glb.birdIdleOnTreeWaitMax;
     
     this.getName = function() {
         return "idleOnTree";
@@ -138,7 +139,6 @@ export function IdleOnTreeState(stateMachine) {
         }
 
         const input = this.stateMachine.proxy.input;
-        const model = this.stateMachine.proxy.model;
         const target = input.target;
 
         const range = 6;
@@ -153,7 +153,7 @@ export function IdleOnTreeState(stateMachine) {
         this.fakeVelocity = Math.random() * (0.12 - 0.09) + 0.09 * this.stateMachine.proxy.velocity;
         this.quaternion = new three.Quaternion().setFromAxisAngle(new three.Vector3(0,1,0), 3 * this.fakeVelocity * Math.PI);
 
-        this.wait = randInt(200, 400);
+        this.wait = randInt(glb.birdIdleOnTreeWaitMin, glb.birdIdleOnTreeWaitMax);
     }
 
     this.update = function(timeElapsed, input) {
@@ -170,8 +170,8 @@ export function IdleOnTreeState(stateMachine) {
         model.quaternion.multiply(this.quaternion);
         proxy.position.copy(model.position);
 
-        this.wait--;
-        if(this.wait < 0)
+        this.wait -= timeElapsed;
+        if(this.wait <= 0)
             this.stateMachine.setState("flyToGround");
     }
 
@@ -192,7 +192,7 @@ export function FlyToGroundState(stateMachine) {
     this.actionSpeed = 10;
     this.target = null;
     this.isWaited = false;
-    this.wait = 0;
+    this.wait = glb.birdFlyToGroundWait;
     this.garbage = null;
 
     this.getName = function() {
@@ -266,10 +266,10 @@ export function FlyToGroundState(stateMachine) {
 
         if(collision(proxy.position, this.target, 0.01 * 1.5 * proxy.velocity) && !this.isWaited) {
             this.isWaited = true;
-            this.wait = 30;
+            this.wait = glb.birdFlyToGroundWaitAfterCollision;
         }
 
-        this.wait--;
+        this.wait -= timeElapsed;
 
         if(this.wait <= 0 && this.isWaited) {
             const newDirection = new three.Vector3(0,0,1).applyQuaternion(model.quaternion).normalize();
@@ -312,7 +312,7 @@ export function IdleOnGroundState(stateMachine) {
             this.action.play();
         }
 
-        this.wait = 10;
+        this.wait = glb.birdIdleOnGroundWait;
 
         this.target = params.target;
         this.garbage = params.garbage;
@@ -330,7 +330,7 @@ export function IdleOnGroundState(stateMachine) {
             this.stateMachine.setState("flyToGround");
         }
 
-        this.wait--;
+        this.wait -= timeElapsed;
 
         if(this.wait <= 0)
             this.stateMachine.setState("eat", { target: this.target, garbage: this.garbage});
@@ -350,7 +350,7 @@ export function EatState(stateMachine) {
     this.__proto__ = new State(stateMachine);
     this.action = null;
     this.actionSpeed = 10;
-    this.wait = null;
+    this.wait = 0;
     this.garbage = null;
     this.target = null;
 
@@ -365,7 +365,7 @@ export function EatState(stateMachine) {
             this.action.play();
         }
 
-        this.wait = 50;
+        this.wait = glb.birdEatWait;
 
         this.target = params.target;
         this.garbage = params.garbage;
@@ -382,7 +382,7 @@ export function EatState(stateMachine) {
         if(this.garbage.removed)
             this.stateMachine.setState("sick");
 
-        this.wait--;
+        this.wait -= timeElapsed;
 
         if(this.wait <= 0) {
             glb.garbageController.removeGarbage(this.garbage);
@@ -408,7 +408,7 @@ export function SickState(stateMachine) {
     this.action = null;
     this.actionSpeed = 10;
     this.isWaited = false;
-    this.wait = 200;
+    this.wait = glb.birdSickWait;
     this.healed = false;
 
     this.getName = function() {
@@ -430,12 +430,12 @@ export function SickState(stateMachine) {
         if(collision(this.stateMachine.proxy.model.position, glb.char.position, glb.charBirdHealRange) && !this.isWaited) {
             if(glb.charController._stateMachine._currentState.getName() === "pettingAnimal") {
                 this.isWaited = true;
-                this.wait = 120;
+                this.wait = glb.birdHealedWait;
                 this.healed = true;
             }
         }
 
-        this.wait--;
+        this.wait -= timeElapsed;
 
         if(this.wait <= 0) {
             if(this.healed)
@@ -465,5 +465,9 @@ export function DieState(stateMachine) {
 
     this.enter = function() {
         this.stateMachine.proxy.model.position.y = -100;
+        glb.birdCount--;
+        for(let i = 0; i < glb.controllers.length; i++)
+            if(glb.controllers[i] === this.stateMachine.proxy.controller)
+                glb.controllers.splice(i,1);
     }
 }

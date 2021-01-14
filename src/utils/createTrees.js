@@ -25,7 +25,7 @@ export async function createTrees() {
 
     // use this function to create new three
     // await createTree(name, scale, positionX, positionZ);
-    const mp = 0.1;
+    const mp = 0.15;
     await createTree('tree1', 0.02, -450*mp, 200*mp);
     await createTree('tree2', 3, -250*mp, 300*mp);
 

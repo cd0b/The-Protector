@@ -8,7 +8,7 @@ export function createRenderer() {
     const renderer = new three.WebGLRenderer({
         antialias: true,
     });
-    renderer.outputEncoding = three.sRGBEncoding;
+    //renderer.outputEncoding = three.sRGBEncoding;
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = three.PCFSoftShadowMap;
     renderer.setClearColor(0x000000);
