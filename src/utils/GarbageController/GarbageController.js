@@ -62,8 +62,10 @@ export function GarbageController() {
         });
         glb.scene.remove(garbage);
         this.garbageMap.delete(garbage);
-        if(removedByChar)
+        if(removedByChar) {
             garbage.removedByChar = true;
+            glb.collectedGarbage++;
+        }
         else
             garbage.removed = true;
     }
@@ -126,6 +128,7 @@ export function GarbageController() {
 
 
     glb.controllers.push(this);
+    glb.garbageController = this;
 
 
 

@@ -10,7 +10,7 @@ const high = 15.0;
 
 async function createBird(name, scale, x, y, z, sound) {
     const bird = await loadModel(name, 'gltf', scale);
-    new BirdController({model: bird, high: high, position: new three.Vector3(x, y, z), velocity: 200.0});
+    new BirdController({model: bird, high: high, position: new three.Vector3(x, y, z), velocity: glb.birdVelocity});
     bird.position.x = x;
     bird.position.y = y;
     bird.position.z = z;
@@ -33,13 +33,15 @@ function randInt(min, max) {
 
 export function createBirds() {
 
-    for(let i = 0; i < glb.birdCount; i++)
+    for(let i = 0; i < glb.birdCount; i++) {
+        const index = randInt(0, glb.birdModels.length - 1);
         createBird(
-            glb.birdModels[randInt(0, glb.birdModels.length - 1)], 
-            0.5, 
+            glb.birdModels[index], 
+            glb.birdScales[index], 
             rand(-glb.landSize / 2, glb.landSize / 2),
             rand(high/3, high*3),
             rand(-glb.landSize / 2, glb.landSize / 2), 
             glb.birdSounds[randInt(0, glb.birdSounds.length - 1)]);
+    }
 
 }

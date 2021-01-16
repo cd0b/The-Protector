@@ -9,7 +9,7 @@ export function createCamera() {
         60,
         window.innerWidth / window.innerHeight,
         0.1,
-        glb.skyboxSize,
+        glb.skyboxSize + glb.landSize + 1,
     );
     camera.position.set(0,10,20);
     camera.lookAt(0, 3, 0);

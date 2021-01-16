@@ -7,6 +7,7 @@ import {setAutoSize} from './setAutoSize.js';
 import {createCanvas} from './createCanvas.js';
 import {render} from './render.js';
 import { createMap } from './createMap.js';
+import {createSun} from './createSun.js';
 import { createListener } from './createListener.js';
 
 export function init() {
@@ -17,5 +18,6 @@ export function init() {
     setAutoSize();
     createCanvas();
     createMap();
+    createSun();
     render();
 }

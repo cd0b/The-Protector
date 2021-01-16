@@ -20,8 +20,8 @@ const Global = function() {
     this.textureLocation = this.getPath(this.projectFolder, "images/textures/");
     this.cubeTextureLocation = this.getPath(this.textureLocation, "cube/");
 
-    this.skyboxSize = 10000;
-    this.skyboxPath = this.getPath(this.textureLocation, "cube/");
+    this.skyboxSize = 1000;
+    this.skyboxPath = this.getPath(this.textureLocation, "skybox/");
 
     this.modelPath = this.getPath(this.projectFolder, "models/");
 
@@ -42,18 +42,20 @@ const Global = function() {
     this.treeGraphPartition = 5;
 
 
-    this.birdModels = ["bird1"];
+    this.birdModels = ["bird8", "bird1", "bird3", "bird5", "bird6"];
+    this.birdScales = [0.1, 0.5, 2.0, 1.0, 0.7];
     this.birdCount = 10;
     this.birdCharRange = this.charBirdRunRange;
     this.birdIdleOnTreeWaitMin = 3;
     this.birdIdleOnTreeWaitMax = 10;
     this.birdFlyToGroundWait = 4;
-    this.birdFlyToGroundWaitAfterCollision = 2;
+    this.birdFlyToGroundWaitAfterCollision = 3;
     this.birdIdleOnGroundWait = 2;
     this.birdEatWait = 5;
-    this.birdSickWait = 5;
-    this.birdHealedWait = 3;
+    this.birdSickWait = 10;
+    this.birdHealedWait = 5;
     this.birdSounds = ["bird1.ogg"];
+    this.birdVelocity = 60.0;
 
     this.garbageModels = ["garbage1"];
     this.garbageScales = [0.3];
@@ -62,6 +64,17 @@ const Global = function() {
     this.garbageController = null;
     this.maxGarbageCount = 2;
     this.garbageCreationTime = 5;
+    this.collectedGarbage = 0;
+
+
+    this.dayLength = 144.0;
+    this.sun = null;
+    this.sunRadius = 2.0;
+
+
+
+
+    this.otherUpdatables = [];
 
     
     

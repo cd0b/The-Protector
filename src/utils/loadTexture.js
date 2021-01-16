@@ -6,13 +6,16 @@ import {glb} from './../global/global.js';
 
 
 
-const loadTexture = async function(imageFilename) {
+const loadTexture = async function(imageFilename, isSkybox = false) {
 
     return new Promise((resolve, reject) => {
         try {
 
             const loader = new three.TextureLoader();
-            loader.setPath(glb.getPath(glb.textureLocation));
+            if(isSkybox)
+                loader.setPath(glb.getPath(glb.skyboxPath));
+            else
+                loader.setPath(glb.getPath(glb.textureLocation));
             
             loader.load(imageFilename, (texture) => {
                 resolve(texture);

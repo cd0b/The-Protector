@@ -10,7 +10,7 @@ export function ThirdPersonCamera(params) {
 
     this._camera = params.camera;
     this._target = params.target;
-    this._offset = params.offset ?? new three.Vector3(0, 5, -5);
+    this._offset = params.offset ?? new three.Vector3(0, 5, -10);
     this._lookat = params.lookat ?? new three.Vector3(0, 5, 0);
 
     this._currentPosition = new three.Vector3();

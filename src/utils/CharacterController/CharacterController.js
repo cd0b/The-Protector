@@ -9,7 +9,9 @@ import {CharacterFiniteStateMachine} from './CharacterFiniteStateMachine.js';
 import { glb } from '../../global/global.js';
 
 
-
+var wtree = [1,2,5,6,7,10];
+var btree = [0,3,4,8,9];
+var i = 0;
 
 
 
@@ -55,7 +57,7 @@ export function CharacterController(params) {
     this.update = function(timeInSecods) {
         this._stateMachine.update(timeInSecods, this._input);
 
-        // map sea collision
+        // collision
         if(glb.char.position.x>glb.landSize/2){
             glb.char.position.x = glb.landSize/2-0.001;
         }
@@ -68,7 +70,62 @@ export function CharacterController(params) {
         if(glb.char.position.z<-glb.landSize/2){
             glb.char.position.z = -glb.landSize/2+0.001; 
         }
-
+        // kahverengi ağaçlar
+        for(i=0;i<5;i++){
+            if(glb.char.position.x < glb.treePositionGraph.nodes[btree[i]].x + 3){                                  //+3
+                if(glb.char.position.x > glb.treePositionGraph.nodes[btree[i]].x + 2){                              //+2
+                    if(glb.char.position.z < glb.treePositionGraph.nodes[btree[i]].z + 2.5){                        //+2.5
+                        if(glb.char.position.z > glb.treePositionGraph.nodes[btree[i]].z - 1.5){                    //-1.5
+                            glb.char.position.x = glb.char.position.x+0.28;}}}   
+            }    
+            if(glb.char.position.x < glb.treePositionGraph.nodes[btree[i]].x + 3){                                  //+3
+                if(glb.char.position.x > glb.treePositionGraph.nodes[btree[i]].x - 1){                              //-1
+                    if(glb.char.position.z < glb.treePositionGraph.nodes[btree[i]].z + 2.5){                        //+2.5
+                        if(glb.char.position.z > glb.treePositionGraph.nodes[btree[i]].z + 1.5){                    //+1.5
+                            glb.char.position.z = glb.char.position.z+0.28;}}}
+            }
+            if(glb.char.position.x < glb.treePositionGraph.nodes[btree[i]].x + 3){                                  //+3
+                if(glb.char.position.x > glb.treePositionGraph.nodes[btree[i]].x - 1){                              //-1
+                    if(glb.char.position.z < glb.treePositionGraph.nodes[btree[i]].z - 0.5){                        //-0.5
+                        if(glb.char.position.z > glb.treePositionGraph.nodes[btree[i]].z - 1.5){                    //-1.5
+                            glb.char.position.z = glb.char.position.z-0.28;}}}  
+            }
+            if(glb.char.position.x < glb.treePositionGraph.nodes[btree[i]].x){                                      //0
+                if(glb.char.position.x > glb.treePositionGraph.nodes[btree[i]].x - 1){                              //-1
+                    if(glb.char.position.z < glb.treePositionGraph.nodes[btree[i]].z - 2.5){                        //-2.5  
+                        if(glb.char.position.z > glb.treePositionGraph.nodes[btree[i]].z - 1.5){                    //-1.5
+                            glb.char.position.x = glb.char.position.x-0.28;}}}   
+            }
+        }
+        // beyaz ağaçlar
+        const beyazAgacSize = 0.50;
+        for(i=0;i<6;i++){
+            if(glb.char.position.x < glb.treePositionGraph.nodes[wtree[i]].x+1){                                  //+1
+                if(glb.char.position.x > glb.treePositionGraph.nodes[wtree[i]].x){                              //0
+                    if(glb.char.position.z < glb.treePositionGraph.nodes[wtree[i]].z+1){                           //+1
+                        if(glb.char.position.z > glb.treePositionGraph.nodes[wtree[i]].z-1){                       //-1
+                            glb.char.position.x = glb.char.position.x+beyazAgacSize;}}}   
+            }    
+            if(glb.char.position.x < glb.treePositionGraph.nodes[wtree[i]].x+1){                                  //+1
+                if(glb.char.position.x > glb.treePositionGraph.nodes[wtree[i]].x-1){                              //-1
+                    if(glb.char.position.z < glb.treePositionGraph.nodes[wtree[i]].z+1){                           //+1
+                        if(glb.char.position.z > glb.treePositionGraph.nodes[wtree[i]].z){                       //0
+                            glb.char.position.z = glb.char.position.z+beyazAgacSize;}}}
+            }
+            if(glb.char.position.x < glb.treePositionGraph.nodes[wtree[i]].x+1){                                  //+1
+                if(glb.char.position.x > glb.treePositionGraph.nodes[wtree[i]].x-1){                              //-1
+                    if(glb.char.position.z < glb.treePositionGraph.nodes[wtree[i]].z-1){                           //-1
+                        if(glb.char.position.z > glb.treePositionGraph.nodes[wtree[i]].z-2){                       //-2
+                            glb.char.position.z = glb.char.position.z-beyazAgacSize;}}}  
+            }
+            if(glb.char.position.x < glb.treePositionGraph.nodes[wtree[i]].x){                                  //0
+                if(glb.char.position.x > glb.treePositionGraph.nodes[wtree[i]].x-1){                              //-1
+                    if(glb.char.position.z < glb.treePositionGraph.nodes[wtree[i]].z+1){                           //+1  
+                        if(glb.char.position.z > glb.treePositionGraph.nodes[wtree[i]].z-1){                       //-1
+                            glb.char.position.x = glb.char.position.x-beyazAgacSize;}}}   
+            }
+        }
+        // end collision
 
         const velocity = this._velocity;
         const frameDecceleration = new three.Vector3(

@@ -2,7 +2,7 @@
 
 
 
-import { glb } from '../../global/global.js';
+import { glb } from './../../global/global.js';
 import * as three from './../../../lib/three.js-master/build/three.module.js';
 
 
@@ -41,13 +41,6 @@ export function FlyToTreeState(stateMachine) {
     this.action = null;
     this.actionSpeed = 10;
 
-    this.logCount = 1;
-
-    this.log = function(str) {
-        if(this.logCount > 0)
-            console.log(str);
-    }
-
     this.getName = function() {
         return "flyToTree";
     }
@@ -80,14 +73,14 @@ export function FlyToTreeState(stateMachine) {
         let angleY;
         {
             angleY = Math.acos(new three.Vector3(direction.x, 0, direction.z).dot(new three.Vector3(movDirection.x, 0, movDirection.z)));
-            angleY *= 0.001;
+            angleY *= 0.00002 * proxy.velocity;
             angleY = angleY.toFixed(3);
         }
         const _QY = new three.Quaternion().setFromAxisAngle(new three.Vector3(0,1,0), angleY * proxy.velocity);
         _R.multiply(_QY);
 
         if(position.y < proxy.high)
-            model.position.add(new three.Vector3(0, 0.001 * proxy.velocity, 0));
+            model.position.add(new three.Vector3(0, 0.003 * proxy.velocity, 0));
         else   
             model.position.y = proxy.high;
 
@@ -97,7 +90,7 @@ export function FlyToTreeState(stateMachine) {
         proxy.position.copy(model.position);
 
         /* collision */
-        if(collision(model.position, target, 0.01 * 3 * proxy.velocity)) {
+        if(collision(model.position, target, 3 * 100/proxy.velocity)) {
             this.stateMachine.setState("idleOnTree");
         }
 
@@ -121,7 +114,9 @@ export function IdleOnTreeState(stateMachine) {
     this.action = null;
     this.actionSpeed = 10;
     
-    this.fakeVelocity = 0.09 * this.stateMachine.proxy.velocity;
+    this.fakeVelocity = 0.18 * this.stateMachine.proxy.velocity;
+    this.minFakeVelocity = 0.7;
+    this.maxFakeVelocity = 1.0;
     this.quaternion = null;
 
     this.wait = glb.birdIdleOnTreeWaitMin;
@@ -150,8 +145,8 @@ export function IdleOnTreeState(stateMachine) {
                 target.z + randInt(-range, range));
         this.stateMachine.proxy.model.position.copy(fakeTarget);
         this.stateMachine.proxy.position.copy(this.stateMachine.proxy.model.position);
-        this.fakeVelocity = Math.random() * (0.12 - 0.09) + 0.09 * this.stateMachine.proxy.velocity;
-        this.quaternion = new three.Quaternion().setFromAxisAngle(new three.Vector3(0,1,0), 3 * this.fakeVelocity * Math.PI);
+        this.fakeVelocity = (Math.random() * (this.maxFakeVelocity - this.minFakeVelocity) + this.minFakeVelocity) * this.stateMachine.proxy.velocity;
+        this.quaternion = new three.Quaternion().setFromAxisAngle(new three.Vector3(0,1,0), 0.001 * this.fakeVelocity * Math.PI);
 
         this.wait = randInt(glb.birdIdleOnTreeWaitMin, glb.birdIdleOnTreeWaitMax);
     }
@@ -166,7 +161,7 @@ export function IdleOnTreeState(stateMachine) {
 
         const direction = new three.Vector3(0,0,1).applyQuaternion(model.quaternion);
 
-        model.position.add(direction.multiplyScalar(this.fakeVelocity * 0.04));
+        model.position.add(direction.multiplyScalar(this.fakeVelocity * 0.01));
         model.quaternion.multiply(this.quaternion);
         proxy.position.copy(model.position);
 
@@ -255,30 +250,35 @@ export function FlyToGroundState(stateMachine) {
         _R.multiply(_QY);
 
         if(position.y > 0)
-            model.position.add(new three.Vector3(0, -0.001 * proxy.velocity, 0));
+            model.position.add(new three.Vector3(0, -0.003 * proxy.velocity, 0));
         else   
             model.position.y = 0;
 
 
         model.quaternion.copy(_R);
-        model.position.add(direction.multiplyScalar(0.005 * proxy.velocity));
+        model.position.add(direction.multiplyScalar(0.01 * proxy.velocity));
         proxy.position.copy(model.position);
 
-        if(collision(proxy.position, this.target, 0.01 * 1.5 * proxy.velocity) && !this.isWaited) {
+        if(collision(proxy.position, this.target, 4 * 100/proxy.velocity) && !this.isWaited) {
             this.isWaited = true;
             this.wait = glb.birdFlyToGroundWaitAfterCollision;
         }
 
         this.wait -= timeElapsed;
 
-        if(this.wait <= 0 && this.isWaited) {
-            const newDirection = new three.Vector3(0,0,1).applyQuaternion(model.quaternion).normalize();
-            const newMovDirection = new three.Vector3().subVectors(target, proxy.position).normalize();
+        if(this.wait <= 0) {
+            if(this.isWaited) {
+                const newDirection = new three.Vector3(0,0,1).applyQuaternion(model.quaternion).normalize();
+                const newMovDirection = new three.Vector3().subVectors(target, proxy.position).normalize();
 
-            const _Q = new three.Quaternion().setFromUnitVectors(newDirection, newMovDirection);
-            model.quaternion.multiply(_Q);
+                const _Q = new three.Quaternion().setFromUnitVectors(newDirection, newMovDirection);
+                model.quaternion.multiply(_Q);
+                model.position.y = 0;
 
-            this.stateMachine.setState("idleOnGround", {target: this.target, garbage: this.garbage});
+                this.stateMachine.setState("idleOnGround", {target: this.target, garbage: this.garbage});
+            } else {
+                this.stateMachine.setState("flyToGround");
+            }
         }
     }
 
@@ -306,7 +306,7 @@ export function IdleOnGroundState(stateMachine) {
     }
 
     this.enter = function(previousState, params) {
-        this.action = this.stateMachine.proxy.actions.IdleOnGround;
+        this.action = this.stateMachine.proxy.actions.idleOnGround;
         if(this.action) {
             this.action.reset();
             this.action.play();
@@ -469,5 +469,6 @@ export function DieState(stateMachine) {
         for(let i = 0; i < glb.controllers.length; i++)
             if(glb.controllers[i] === this.stateMachine.proxy.controller)
                 glb.controllers.splice(i,1);
+        this.stateMachine.proxy.model.sound.stop();
     }
 }

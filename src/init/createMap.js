@@ -4,37 +4,7 @@
 import * as three from '../../lib/three.js-master/build/three.module.js';
 import {glb} from './../global/global.js';
 import {loadTexture} from './../utils/loadTexture.js';
-import {createPerlinNoiseCanvas} from './../utils/createPerlinNoiseCanvas.js';
 import {Water} from './../../lib/three.js-master/examples/jsm/objects/Water.js';
-import {Sky} from './../../lib/three.js-master/examples/jsm/objects/Sky.js';
-
-
-
-function Sun() {
-
-    
-
-    this.update = function() {
-
-        let sunPosition = new three.Vector3();
-
-        if(glb.sea)
-            glb.sea.material.uniforms["sunDirection"].value.copy(sunPosition);
-    }
-
-    glb.sun = this;
-
-}
-
-
-
-
-function createSun() {
-
-    
-
-}
-
 
 
 
@@ -62,10 +32,9 @@ async function createLand() {
     const normTexture = wrapTexture(await loadTexture(grassFolder + 'norm.jpg'));
     const occTexture = wrapTexture(await loadTexture(grassFolder + 'occ.jpg'));
     //const specTexture = wrapTexture(await loadTexture(grassFolder + 'spec.jpg'));
-    //const bumpTexture = wrapTexture(new three.Texture(createPerlinNoiseCanvas(1024, 1024)));
 
     // material
-    const material = new three.MeshStandardMaterial({
+    const material = new three.MeshPhongMaterial({
         color: 0x202020,
         map: grassTexture,
         displacementMap: dispTexture,
@@ -96,9 +65,9 @@ function createSea() {
             textureHeight: 512,
             waterNormals: new three.TextureLoader().load( 'images/textures/water.jpg', function ( texture ) { texture.wrapS = texture.wrapT = three.RepeatWrapping; }),
             alpha: 1.0,
-            sunDirection: new three.Vector3(0,0,0),
+            sunDirection: new three.Vector3(0,1,0),
             sunColor: 0xfc7f03,
-            waterColor: 0x001e0f,
+            waterColor: 0x3599FD,
             distortionScale: 3.7,
             fog: glb.scene.fog !== undefined
         });
@@ -106,7 +75,6 @@ function createSea() {
     sea.rotation.x = -0.5 * Math.PI;
 
     glb.scene.add(sea);
-
     glb.sea = sea;
 }
 
@@ -119,6 +87,5 @@ export async function createMap() {
 
     await createLand();
     createSea();
-    createSun();
 
 }
