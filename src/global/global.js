@@ -54,7 +54,14 @@ const Global = function() {
     this.birdEatWait = 5;
     this.birdSickWait = 10;
     this.birdHealedWait = 5;
-    this.birdSounds = ["bird1.ogg"];
+    this.birdSounds = ["bird2.wav", "bird3.wav", "bird4.wav", 
+                    "bird5.wav", "bird6.wav", "bird7.wav", 
+                    "bird8.wav", "bird9.wav", "bird10.wav", 
+                    "bird11.wav", "bird12.wav", "bird13.wav", 
+                    "bird14.wav", "bird15.wav", "bird16.wav", 
+                    "bird17.wav", "bird18.wav", "bird19.wav", 
+                    "bird20.wav", "bird21.wav", "bird22.wav", 
+                    "bird23.wav", "bird24.wav"];
     this.birdVelocity = 60.0;
 
     this.garbageModels = ["garbage1"];
