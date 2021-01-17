@@ -1,6 +1,6 @@
 "use strict";
 
-import * as three from './../../lib/three.js-master/build/three.module.js';
+import * as three from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r124/three.module.min.js';
 import { glb } from "../global/global.js";
 import { loadModel } from "./loadModel.js";
 import { BirdController } from "./BirdController/BirdController.js";
@@ -31,11 +31,11 @@ function randInt(min, max) {
 
 
 
-export function createBirds() {
+export async function createBirds() {
 
     for(let i = 0; i < glb.birdCount; i++) {
         const index = randInt(0, glb.birdModels.length - 1);
-        createBird(
+        await createBird(
             glb.birdModels[index], 
             glb.birdScales[index], 
             rand(-glb.landSize / 2, glb.landSize / 2),

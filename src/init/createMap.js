@@ -1,10 +1,10 @@
 "use strict";
 
 
-import * as three from '../../lib/three.js-master/build/three.module.js';
+import * as three from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r124/three.module.min.js';
 import {glb} from './../global/global.js';
 import {loadTexture} from './../utils/loadTexture.js';
-import {Water} from './../../lib/three.js-master/examples/jsm/objects/Water.js';
+import {Water} from 'https://cdn.jsdelivr.net/gh/mrdoob/three.js@r124/examples/jsm/objects/Water.js';
 
 
 

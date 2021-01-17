@@ -1,6 +1,6 @@
 "use strict";
 
-import * as three from './../../../lib/three.js-master/build/three.module.js';
+
 import { glb } from "../../global/global.js";
 import {BirdControllerProxy} from './BirdControllerProxy.js';
 import {BirdControllerInput} from './BirdControllerInput.js';

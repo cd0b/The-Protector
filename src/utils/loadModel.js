@@ -1,11 +1,9 @@
 "use strict";
 
-import * as three from './../../lib/three.js-master/build/three.module.js';
-import {FBXLoader} from './../../lib/three.js-master/examples/jsm/loaders/FBXLoader.js';
-import {OBJLoader} from './../../lib/three.js-master/examples/jsm/loaders/OBJLoader.js';
-import {MTLLoader} from './../../lib/three.js-master/examples/jsm/loaders/MTLLoader.js';
+import * as three from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r124/three.module.min.js';
+import {FBXLoader} from 'https://cdn.jsdelivr.net/gh/mrdoob/three.js@r124/examples/jsm/loaders/FBXLoader.js';
 import {glb} from '../global/global.js';
-import { GLTFLoader } from '../../lib/three.js-master/examples/jsm/loaders/GLTFLoader.js';
+import { GLTFLoader } from 'https://cdn.jsdelivr.net/gh/mrdoob/three.js@r124/examples/jsm/loaders/GLTFLoader.js';
 
 
 

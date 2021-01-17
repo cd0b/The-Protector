@@ -1,4 +1,6 @@
 
+"use strict";
+
 const Global = function() {
 
     this.getPath = function() {
@@ -38,18 +40,19 @@ const Global = function() {
     this.charGarbageRange = 8;
     this.charBirdRunRange = 16;
     this.charBirdHealRange = 8;
+    this.charHand = false;
 
     this.treeGraphPartition = 5;
 
 
-    this.birdModels = ["bird8", "bird1", "bird3", "bird5", "bird6"];
-    this.birdScales = [0.1, 0.5, 2.0, 1.0, 0.7];
+    this.birdModels = ["bird8", "bird1", "bird5", "bird6"];
+    this.birdScales = [0.1, 0.5, 1.0, 0.7];
     this.birdCount = 10;
     this.birdCharRange = this.charBirdRunRange;
     this.birdIdleOnTreeWaitMin = 3;
     this.birdIdleOnTreeWaitMax = 10;
     this.birdFlyToGroundWait = 4;
-    this.birdFlyToGroundWaitAfterCollision = 3;
+    this.birdFlyToGroundWaitAfterCollision = 4;
     this.birdIdleOnGroundWait = 2;
     this.birdEatWait = 5;
     this.birdSickWait = 10;
@@ -63,6 +66,8 @@ const Global = function() {
                     "bird20.wav", "bird21.wav", "bird22.wav", 
                     "bird23.wav", "bird24.wav"];
     this.birdVelocity = 60.0;
+    this.scarecrows = [];
+    this.birdScarecrowRange = 16;
 
     this.garbageModels = ["garbage1"];
     this.garbageScales = [0.3];
@@ -74,77 +79,21 @@ const Global = function() {
     this.collectedGarbage = 0;
 
 
-    this.dayLength = 144.0;
+    this.dayLength = 288.0;
     this.sun = null;
     this.sunRadius = 2.0;
 
 
 
+    this.spaceHamsterHigh = 4;
+
+
+
+    this.shipVelocity = 1.0;
+
+
 
     this.otherUpdatables = [];
-
-    this.rockGraphPartition = 5;
-    this.rock3Position = [
-        [350, 450],
-        [350, 450],
-        [150, 200],
-        [300, 250],
-        [150,   0],
-        [ -50, -150],
-        [-450, -400],
-        [-250, -150],
-        [-450, -200],
-        [-200, -450]
-    ];
-    this.rock2Position = [
-        [500,500],
-        [-500,500],
-        [-475,500],
-        [-450,500],
-        [-400,500],
-        [-375,500],
-        [-500,475],
-        [-500,450],
-        [-500,400],
-        [475,500],
-        [450,500],
-        [425,500],
-        [400,500],
-        [500,475],
-        [500,450],
-        [500,475]
-    ];
-    this.mountain = [[200,200],[200,-100],[-200,150],[-200,-150],[-200,100],[-200,-100],[-90,-90]];
-
-
-    this.tree1positions = [
-        [-450,450],
-        [-250,350],
-        [0,350],
-        [-250,250],
-        [50,100],
-        [150,0],
-        [350,50],
-        [450,350],
-        [-250,-350],
-        [0,-350],
-        [-250,-250],
-        [0,-250],
-        [50,-100],
-        [250,-350],
-        [450,-350]
-    ];
-    this.tree2positions = [
-        [-150,150],
-        [0,250],
-        [150,250],
-        [250,50],
-        [350,450],
-        [-450,-50],
-        [150,-450],
-        [350,-150],
-        [450,-50]
-    ];
     
 };
 

@@ -1,6 +1,6 @@
 "use strict";
 
-import * as three from './../../../lib/three.js-master/build/three.module.js';
+import * as three from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r124/three.module.min.js';
 import {vertexShaderCode} from './VertexShader.js';
 import {fragmentShaderCode} from './FragmentShader.js';
 import {glb} from './../../global/global.js';

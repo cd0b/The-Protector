@@ -1,6 +1,5 @@
 "use strict";
 
-import { glb } from "../../global/global.js";
 
 export function BirdControllerProxy(params, input, controller) {
 
@@ -16,10 +15,10 @@ export function BirdControllerProxy(params, input, controller) {
     this.actions.flyToTree = this.model.namelessActionList[0];
     this.actions.idleOnTree = this.model.namelessActionList[0];
     this.actions.flyToGround = this.model.namelessActionList[0];
-    this.actions.idleOnGround = this.model.namelessActionList[0];
+    //this.actions.idleOnGround = this.model.namelessActionList[0];
     this.actions.eat = this.model.namelessActionList[0];
-    this.actions.sick = this.model.namelessActionList[0];
-    this.actions.die = this.model.namelessActionList[0];
+    //this.actions.sick = this.model.namelessActionList[0];
+    //this.actions.die = this.model.namelessActionList[0];
     
     delete this.model.namelessActionList;
 

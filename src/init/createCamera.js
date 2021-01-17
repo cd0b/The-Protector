@@ -1,6 +1,6 @@
 "use strict";
 
-import * as three from './../../lib/three.js-master/build/three.module.js';
+import * as three from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r124/three.module.min.js';
 import {glb} from './../global/global.js';
 
 export function createCamera() {

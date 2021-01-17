@@ -6,15 +6,23 @@ import {createCharacter} from './utils/createCharacter.js';
 import {createTrees} from './utils/createTrees.js';
 import {createBirds} from './utils/createBirds.js';
 import {setGarbageController} from './utils/setGarbageController.js';
-import {createRocks} from "./utils/createRocks.js";
+import {createGandalfsStaff} from './utils/createGandalfsStaff.js';
+import {createSpaceHamster} from './utils/createSpaceHamster.js';
+import {createScarecrow} from './utils/createScarecrow.js';
+import {createShips} from './utils/createShips.js';
+
 
 export async function _GAME_() {
 
     init();
-    setSkybox("colors");
+    await setSkybox("colors");
     await createTrees();
-    createCharacter();
+    await createCharacter();
     setGarbageController();
-    createBirds();
-    createRocks();
+    await createBirds();
+    await createGandalfsStaff(4);
+    await createSpaceHamster();
+    await createScarecrow();
+    await createShips();
+
 }

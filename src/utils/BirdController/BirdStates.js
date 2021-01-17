@@ -3,7 +3,7 @@
 
 
 import { glb } from './../../global/global.js';
-import * as three from './../../../lib/three.js-master/build/three.module.js';
+import * as three from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r124/three.module.min.js';
 
 
 
@@ -29,6 +29,17 @@ function collision(pos, targetPos, tol) {
 
 function randInt(min, max) {
     return Math.round(Math.random() * (max - min) + min);
+}
+
+function collisionScarecrows(gus) {
+
+    for(let i = 0; i < glb.scarecrows.length; i++) {
+        if(collision(gus.position, glb.scarecrows[i].position, glb.birdScarecrowRange))
+            return true;
+    }
+
+    return false;
+
 }
 
 
@@ -226,7 +237,7 @@ export function FlyToGroundState(stateMachine) {
         if(this.action)
             this.action.getMixer().update(timeElapsed * this.actionSpeed);
 
-        if(collision(glb.char.position, this.target, glb.birdCharRange)) {
+        if(collision(glb.char.position, this.target, glb.birdCharRange) || collisionScarecrows(this.stateMachine.proxy.model)) {
             this.stateMachine.setState("flyToTree");
         }
 
@@ -322,7 +333,7 @@ export function IdleOnGroundState(stateMachine) {
         if(this.action)
             this.action.getMixer().update(timeElapsed * this.actionSpeed);
 
-        if(collision(glb.char.position, this.target, glb.birdCharRange)) {
+        if(collision(glb.char.position, this.target, glb.birdCharRange) || collisionScarecrows(this.stateMachine.proxy.model)) {
             this.stateMachine.setState("flyToTree");
         }
 
@@ -375,7 +386,7 @@ export function EatState(stateMachine) {
         if(this.action)
             this.action.getMixer().update(timeElapsed * this.actionSpeed);
 
-        if(collision(glb.char.position, this.target, glb.birdCharRange) || this.garbage.removedByChar) {
+        if(collision(glb.char.position, this.target, glb.birdCharRange) || this.garbage.removedByChar || collisionScarecrows(this.stateMachine.proxy.model)) {
             this.stateMachine.setState("flyToTree");
         }
 

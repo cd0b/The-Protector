@@ -2,18 +2,18 @@
 
 
 
-import * as three from '../../../lib/three.js-master/build/three.module.js';
+import * as three from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r124/three.module.min.js';
 import {CharacterControllerProxy} from './CharacterControllerProxy.js';
 import {ChararacterControllerInput} from './CharacterControllerInput.js';
 import {CharacterFiniteStateMachine} from './CharacterFiniteStateMachine.js';
 import { glb } from '../../global/global.js';
 
-/*
+
 var wtree = [1,2,5,6,7,10];
 var btree = [0,3,4,8,9];
-*/
-let i = 0;
-let j = 0;
+var i = 0;
+
+
 
 export function CharacterController(params) {
 
@@ -70,67 +70,33 @@ export function CharacterController(params) {
         if(glb.char.position.z<-glb.landSize/2){
             glb.char.position.z = -glb.landSize/2+0.001; 
         }
-        //
-        // All Trees
-        //
-        for(i=0;i<glb.treePositionGraph.nodes.length;i++){
-            if(glb.char.position.x < glb.treePositionGraph.nodes[i].x + 3){                                  //+3
-                if(glb.char.position.x > glb.treePositionGraph.nodes[i].x + 2){                              //+2
-                    if(glb.char.position.z < glb.treePositionGraph.nodes[i].z + 2.5){                        //+2.5
-                        if(glb.char.position.z > glb.treePositionGraph.nodes[i].z - 1.5){                    //-1.5
-                            glb.char.position.x = glb.char.position.x+0.4;}}}
+        // kahverengi ağaçlar
+        for(i=0;i<5;i++){
+            if(glb.char.position.x < glb.treePositionGraph.nodes[btree[i]].x + 3){                                  //+3
+                if(glb.char.position.x > glb.treePositionGraph.nodes[btree[i]].x + 2){                              //+2
+                    if(glb.char.position.z < glb.treePositionGraph.nodes[btree[i]].z + 2.5){                        //+2.5
+                        if(glb.char.position.z > glb.treePositionGraph.nodes[btree[i]].z - 1.5){                    //-1.5
+                            glb.char.position.x = glb.char.position.x+0.28;}}}   
             }    
-            if(glb.char.position.x < glb.treePositionGraph.nodes[i].x + 3){                                  //+3
-                if(glb.char.position.x > glb.treePositionGraph.nodes[i].x - 1){                              //-1
-                    if(glb.char.position.z < glb.treePositionGraph.nodes[i].z + 2.5){                        //+2.5
-                        if(glb.char.position.z > glb.treePositionGraph.nodes[i].z + 1.5){                    //+1.5
-                            glb.char.position.z = glb.char.position.z+0.4;}}}
+            if(glb.char.position.x < glb.treePositionGraph.nodes[btree[i]].x + 3){                                  //+3
+                if(glb.char.position.x > glb.treePositionGraph.nodes[btree[i]].x - 1){                              //-1
+                    if(glb.char.position.z < glb.treePositionGraph.nodes[btree[i]].z + 2.5){                        //+2.5
+                        if(glb.char.position.z > glb.treePositionGraph.nodes[btree[i]].z + 1.5){                    //+1.5
+                            glb.char.position.z = glb.char.position.z+0.28;}}}
             }
-            if(glb.char.position.x < glb.treePositionGraph.nodes[i].x + 3){                                  //+3
-                if(glb.char.position.x > glb.treePositionGraph.nodes[i].x - 1){                              //-1
-                    if(glb.char.position.z < glb.treePositionGraph.nodes[i].z - 0.5){                        //-0.5
-                        if(glb.char.position.z > glb.treePositionGraph.nodes[i].z - 1.5){                    //-1.5
-                            glb.char.position.z = glb.char.position.z-0.4;}}}
+            if(glb.char.position.x < glb.treePositionGraph.nodes[btree[i]].x + 3){                                  //+3
+                if(glb.char.position.x > glb.treePositionGraph.nodes[btree[i]].x - 1){                              //-1
+                    if(glb.char.position.z < glb.treePositionGraph.nodes[btree[i]].z - 0.5){                        //-0.5
+                        if(glb.char.position.z > glb.treePositionGraph.nodes[btree[i]].z - 1.5){                    //-1.5
+                            glb.char.position.z = glb.char.position.z-0.28;}}}  
             }
-            if(glb.char.position.x < glb.treePositionGraph.nodes[i].x){                                      //0
-                if(glb.char.position.x > glb.treePositionGraph.nodes[i].x - 1){                              //-1
-                    if(glb.char.position.z < glb.treePositionGraph.nodes[i].z - 2.5){                        //-2.5
-                        if(glb.char.position.z > glb.treePositionGraph.nodes[i].z - 1.5){                    //-1.5
-                            glb.char.position.x = glb.char.position.x-0.4;}}}
-            }
-        }
-        //
-        //Rock Collision
-        //
-        /*
-        for(j=0;j<glb.rockPositionGraph.nodes;j++){
-            if(glb.char.position.x < glb.rockPositionGraph.nodes[i].x + 3){                                  //+3
-                if(glb.char.position.x > glb.rockPositionGraph.nodes[j].x + 2){                              //+2
-                    if(glb.char.position.z < glb.rockPositionGraph.nodes[j].z + 2.5){                        //+2.5
-                        if(glb.char.position.z > glb.rockPositionGraph.nodes[j].z - 1.5){                    //-1.5
-                            glb.char.position.x = glb.char.position.x+0.5;}}}
-            }
-            if(glb.char.position.x < glb.rockPositionGraph.nodes[j].x + 3){                                  //+3
-                if(glb.char.position.x > glb.rockPositionGraph.nodes[j].x - 1){                              //-1
-                    if(glb.char.position.z < glb.rockPositionGraph.nodes[j].z + 2.5){                        //+2.5
-                        if(glb.char.position.z > glb.rockPositionGraph.nodes[j].z + 1.5){                    //+1.5
-                            glb.char.position.z = glb.char.position.z+0.5;}}}
-            }
-            if(glb.char.position.x < glb.rockPositionGraph.nodes[j].x + 3){                                  //+3
-                if(glb.char.position.x > glb.rockPositionGraph.nodes[j].x - 1){                              //-1
-                    if(glb.char.position.z < glb.rockPositionGraph.nodes[j].z - 0.5){                        //-0.5
-                        if(glb.char.position.z > glb.rockPositionGraph.nodes[j].z - 1.5){                    //-1.5
-                            glb.char.position.z = glb.char.position.z-0.5;}}}
-            }
-            if(glb.char.position.x < glb.rockPositionGraph.nodes[j].x){                                      //0
-                if(glb.char.position.x > glb.rockPositionGraph.nodes[j].x - 1){                              //-1
-                    if(glb.char.position.z < glb.rockPositionGraph.nodes[j].z - 2.5){                        //-2.5
-                        if(glb.char.position.z > glb.rockPositionGraph.nodes[j].z - 1.5){                    //-1.5
-                            glb.char.position.x = glb.char.position.x-0.5;}}}
+            if(glb.char.position.x < glb.treePositionGraph.nodes[btree[i]].x){                                      //0
+                if(glb.char.position.x > glb.treePositionGraph.nodes[btree[i]].x - 1){                              //-1
+                    if(glb.char.position.z < glb.treePositionGraph.nodes[btree[i]].z + 2.5){                        //-2.5  
+                        if(glb.char.position.z > glb.treePositionGraph.nodes[btree[i]].z - 1.5){                    //-1.5
+                            glb.char.position.x = glb.char.position.x-0.28;}}}   
             }
         }
-        */
-        /*
         // beyaz ağaçlar
         const beyazAgacSize = 0.50;
         for(i=0;i<6;i++){
@@ -159,7 +125,6 @@ export function CharacterController(params) {
                             glb.char.position.x = glb.char.position.x-beyazAgacSize;}}}   
             }
         }
-        */
         // end collision
 
         const velocity = this._velocity;

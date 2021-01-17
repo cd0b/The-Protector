@@ -2,7 +2,6 @@
 
 
 
-import * as three from '../../../lib/three.js-master/build/three.module.js';
 import {glb} from '../../global/global.js';
 import {loadModel} from './../loadModel.js';
 
@@ -39,6 +38,13 @@ export function GarbageController() {
     this.maxGarbageCount = glb.maxGarbageCount;
 
     this.garbageMap = new Map();
+
+    this.pickAGarbage = function() {
+        if(this.garbageMap.size <= 0)
+            return null;
+
+        return this.garbageMap.entries().next().value;
+    }
 
     this.removeGarbage = function(garbage, removedByChar) {
 
