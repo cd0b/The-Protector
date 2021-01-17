@@ -9,6 +9,7 @@ import {createCharacter} from './utils/createCharacter.js';
 import {createTrees} from './utils/createTrees.js';
 import {createBirds} from './utils/createBirds.js';
 import {setGarbageController} from './utils/setGarbageController.js';
+import {createRocks} from "./utils/createRocks.js";
 
 
 
@@ -23,5 +24,5 @@ export async function _TEST_() {
     createCharacter();
     //setGarbageController();
     //createBirds();
-
+    //createRocks();
 };

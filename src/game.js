@@ -6,7 +6,7 @@ import {createCharacter} from './utils/createCharacter.js';
 import {createTrees} from './utils/createTrees.js';
 import {createBirds} from './utils/createBirds.js';
 import {setGarbageController} from './utils/setGarbageController.js';
-
+import {createRocks} from "./utils/createRocks.js";
 
 export async function _GAME_() {
 
@@ -16,5 +16,5 @@ export async function _GAME_() {
     createCharacter();
     setGarbageController();
     createBirds();
-
+    createRocks();
 }
