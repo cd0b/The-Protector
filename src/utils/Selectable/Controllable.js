@@ -28,6 +28,11 @@ export function Controllable(selectable, controlSettings) {
                 (change < 0 && this.controlObject[this.controlFeature] > this.featureRange.min))
             this.controlObject[this.controlFeature] += change * this.unit;
         }
+        if(this.controlObject[this.controlFeature] <= this.featureRange.min) {
+            this.controlObject[this.controlFeature] = this.featureRange.min;
+        } else if(this.controlObject[this.controlFeature] >= this.featureRange.max) {
+            this.controlObject[this.controlFeature] = this.featureRange.max;
+        }
     }.bind(this), false);
     window.addEventListener("mousedown", function(e) {
         if(e.which == 2) {
