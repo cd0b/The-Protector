@@ -27,7 +27,7 @@ export function ThirdPersonCamera(params) {
     }.bind(this);
 
 
-    window.addEventListener("keypress", function(e) {
+    /*window.addEventListener("keypress", function(e) {
         if(e.code === "NumpadSubtract") {
             const dir = new three.Vector3();
             this._camera.getWorldDirection(dir);
@@ -39,7 +39,7 @@ export function ThirdPersonCamera(params) {
             dir.applyQuaternion(new three.Quaternion().setFromAxisAngle(new three.Vector3(0,1,0), Math.PI * -0.5));
             //this._lookat.applyQuaternion(new three.Quaternion().setFromAxisAngle(new three.Vector3(dir), Math.PI * 0.01));
         }
-    }.bind(this), false);
+    }.bind(this), false);*/
 
 
 

@@ -10,6 +10,7 @@ import {createGandalfsStaff} from './utils/createGandalfsStaff.js';
 import {createSpaceHamster} from './utils/createSpaceHamster.js';
 import {createScarecrow} from './utils/createScarecrow.js';
 import {createShips} from './utils/createShips.js';
+import {glb} from './global/global.js';
 
 export const _TEST_ENABLED_ = true;
 
@@ -22,9 +23,17 @@ export async function _TEST_() {
     await createCharacter();
     setGarbageController();
     await createBirds();
-    await createGandalfsStaff(4);
-    await createSpaceHamster();
-    await createScarecrow();
-    await createShips();
+    //await createGandalfsStaff(4);
+    //await createSpaceHamster();
+    //await createScarecrow();
+    //await createShips();
+
+    window.addEventListener("keypress", function(e) {
+
+        if(e.code === "KeyP") {
+            glb.char.visible = !glb.char.visible;
+        }
+
+    }, false);
 
 };
