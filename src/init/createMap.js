@@ -45,7 +45,6 @@ async function createLand() {
 
     // create plane
     const mesh = new three.Mesh(geometry, material);
-    mesh.receiveShadow = true;
     mesh.rotation.x = -0.5 * Math.PI;
 
     // add to scene.

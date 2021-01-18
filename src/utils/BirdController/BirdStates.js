@@ -78,7 +78,7 @@ export function FlyToTreeState(stateMachine) {
         const target = new three.Vector3(input.target.x, proxy.high, input.target.z);
         const position = proxy.position;
         const movDirection = new three.Vector3().subVectors(target, position).normalize();
-        const direction = new three.Vector3(0,0,1).applyQuaternion(model.quaternion).normalize();
+        const direction = new three.Vector3(0,0,-1).applyQuaternion(model.quaternion).normalize();
 
         const _R = model.quaternion.clone();
         let angleY;
@@ -170,7 +170,7 @@ export function IdleOnTreeState(stateMachine) {
         const proxy = this.stateMachine.proxy;
         const model = proxy.model;
 
-        const direction = new three.Vector3(0,0,1).applyQuaternion(model.quaternion);
+        const direction = new three.Vector3(0,0,-1).applyQuaternion(model.quaternion);
 
         model.position.add(direction.multiplyScalar(this.fakeVelocity * 0.01));
         model.quaternion.multiply(this.quaternion);
@@ -248,7 +248,7 @@ export function FlyToGroundState(stateMachine) {
         const target = new three.Vector3(this.target.x, this.target.y, this.target.z);
         const position = proxy.position;
         const movDirection = new three.Vector3().subVectors(target, position).normalize();
-        const direction = new three.Vector3(0,0,1).applyQuaternion(model.quaternion).normalize();
+        const direction = new three.Vector3(0,0,-1).applyQuaternion(model.quaternion).normalize();
 
         const _R = model.quaternion.clone();
         let angleY;
@@ -260,10 +260,10 @@ export function FlyToGroundState(stateMachine) {
         const _QY = new three.Quaternion().setFromAxisAngle(new three.Vector3(0,1,0), angleY * proxy.velocity);
         _R.multiply(_QY);
 
-        if(position.y > 0)
+        if(position.y > 1)
             model.position.add(new three.Vector3(0, -0.003 * proxy.velocity, 0));
         else   
-            model.position.y = 0;
+            model.position.y = 1;
 
 
         model.quaternion.copy(_R);
@@ -279,12 +279,12 @@ export function FlyToGroundState(stateMachine) {
 
         if(this.wait <= 0) {
             if(this.isWaited) {
-                const newDirection = new three.Vector3(0,0,1).applyQuaternion(model.quaternion).normalize();
+                const newDirection = new three.Vector3(0,0,-1).applyQuaternion(model.quaternion).normalize();
                 const newMovDirection = new three.Vector3().subVectors(target, proxy.position).normalize();
 
                 const _Q = new three.Quaternion().setFromUnitVectors(newDirection, newMovDirection);
                 model.quaternion.multiply(_Q);
-                model.position.y = 0;
+                model.position.y = 1;
 
                 this.stateMachine.setState("idleOnGround", {target: this.target, garbage: this.garbage});
             } else {
@@ -307,7 +307,7 @@ export function FlyToGroundState(stateMachine) {
 export function IdleOnGroundState(stateMachine) {
     this.__proto__ = new State(stateMachine);
     this.action = null;
-    this.actionSpeed = 10;
+    this.actionSpeed = 0.1;
     this.wait = 0;
     this.target = null;
     this.garbage = null;
@@ -360,7 +360,7 @@ export function IdleOnGroundState(stateMachine) {
 export function EatState(stateMachine) {
     this.__proto__ = new State(stateMachine);
     this.action = null;
-    this.actionSpeed = 10;
+    this.actionSpeed = 0.1;
     this.wait = 0;
     this.garbage = null;
     this.target = null;
@@ -417,7 +417,7 @@ export function EatState(stateMachine) {
 export function SickState(stateMachine) {
     this.__proto__ = new State(stateMachine);
     this.action = null;
-    this.actionSpeed = 10;
+    this.actionSpeed = 0.01;
     this.isWaited = false;
     this.wait = glb.birdSickWait;
     this.healed = false;

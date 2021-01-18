@@ -47,7 +47,7 @@ function SpaceHamsterController(mass) {
             }
         }
 
-        // correct quaternion
+        // correction quaternion
         if(Math.abs(this.quaternion.dot(this.obj.quaternion)) < 0.9999 && this.corr) {
             this.obj.quaternion.slerp(this.quaternion, 0.1);
         } else if(this.corr) {

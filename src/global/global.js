@@ -15,7 +15,7 @@ const Global = function() {
         return result;
     }
 
-    this.projectFolder = "Game";
+    this.projectFolder = "";
 
     this.audioLocation = this.getPath(this.projectFolder, "audio");
 
@@ -31,6 +31,7 @@ const Global = function() {
     this.controllers = [];
 
     this.landSize = 150;
+    this.gameSpeed = 1.0;
 
     this.charName = "jollen";
     this.charAnimations = ["idle", "petting animal", "run", "run back"];
@@ -44,34 +45,30 @@ const Global = function() {
 
     this.treeGraphPartition = 5;
 
+    
 
-    this.birdModels = ["bird8", "bird1", "bird5", "bird6"];
-    this.birdScales = [0.1, 0.5, 1.0, 0.7];
-    this.birdCount = 10;
+    //this.birdModels = ["bird8", "bird1", "bird5", "bird6"];
+    this.birdModels = ["redcoat"];
+    //this.birdScales = [0.1, 0.5, 1.0, 0.7];
+    this.birdScales = [0.005];
+    this.birdCount = 1;
     this.birdCharRange = this.charBirdRunRange;
     this.birdIdleOnTreeWaitMin = 3;
     this.birdIdleOnTreeWaitMax = 10;
     this.birdFlyToGroundWait = 4;
-    this.birdFlyToGroundWaitAfterCollision = 4;
-    this.birdIdleOnGroundWait = 2;
-    this.birdEatWait = 5;
-    this.birdSickWait = 10;
+    this.birdFlyToGroundWaitAfterCollision = 5;
+    this.birdIdleOnGroundWait = 5;
+    this.birdEatWait = 10;
+    this.birdSickWait = 15;
     this.birdHealedWait = 5;
-    this.birdSounds = ["bird2.wav", "bird3.wav", "bird4.wav", 
-                    "bird5.wav", "bird6.wav", "bird7.wav", 
-                    "bird8.wav", "bird9.wav", "bird10.wav", 
-                    "bird11.wav", "bird12.wav", "bird13.wav", 
-                    "bird14.wav", "bird15.wav", "bird16.wav", 
-                    "bird17.wav", "bird18.wav", "bird19.wav", 
-                    "bird20.wav", "bird21.wav", "bird22.wav", 
-                    "bird23.wav", "bird24.wav"];
-    this.birdVelocity = 60.0;
+    this.birdSounds = ["bird24.wav"];
+    this.birdVelocity = 60.0 * this.gameSpeed;
     this.scarecrows = [];
     this.birdScarecrowRange = 16;
 
-    this.garbageModels = ["garbage1"];
-    this.garbageScales = [0.3];
-    this.garbageHighs = [-1.0];
+    this.garbageModels = ["garbage1","garbage2"];
+    this.garbageScales = [0.3, 0.2];
+    this.garbageHighs = [-1.0, -0.001];
     this.garbageRange = [5,15];
     this.garbageController = null;
     this.maxGarbageCount = 2;
@@ -89,7 +86,7 @@ const Global = function() {
 
 
 
-    this.shipVelocity = 1.0;
+    this.shipVelocity = 1.0 * this.gameSpeed;
 
 
 

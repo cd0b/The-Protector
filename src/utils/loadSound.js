@@ -5,7 +5,7 @@ import * as three from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r124/thr
 import {glb} from './../global/global.js';
 
 
-export async function loadSound(name, dist) {
+export async function loadSound(name, dist, play = true) {
 
     return new Promise((resolve) => {
         const sound = new three.PositionalAudio(glb.audioListener);
@@ -15,7 +15,8 @@ export async function loadSound(name, dist) {
             sound.setLoop( true );
             sound.setRefDistance(dist);
             sound.setVolume(0.01);
-            sound.play();
+            if(play)
+                sound.play();
             resolve(sound);
         });
     });

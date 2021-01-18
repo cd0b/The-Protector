@@ -11,7 +11,7 @@ export function render() {
 
             requestAnimationFrame(_render);
             
-            const timeElapsed = (frame - glb.previousFrame) * 0.002;
+            const timeElapsed = (frame - glb.previousFrame) * 0.002 * glb.gameSpeed;
 
             glb.animationMixers.forEach(m => m.update(timeElapsed));
             glb.controllers.forEach(c => c.update(timeElapsed));

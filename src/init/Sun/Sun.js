@@ -76,37 +76,6 @@ export function Sun() {
         this.directionalLight.position.copy(this.position);
 
     }
-
-
-
-    /*(function createSun() {
-
-        const scene = glb.scene;
-
-        // spot light
-        const spotLight = new three.DirectionalLight("#ffffff");
-        spotLight.position.set(10,10,10);
-        spotLight.intensity = 2;
-        spotLight.exponent = 4;
-        spotLight.angle = Math.PI/2.2;
-        spotLight.target = scene;
-        spotLight.castShadow = true;
-        spotLight.shadow.camera.near = 0.1;
-        spotLight.shadow.camera.far = 100;
-        spotLight.shadow.mapSize.width = 10000;
-        spotLight.shadow.mapSize.height = 10000;
-        scene.add(spotLight);
-
-        const helper = new three.CameraHelper(spotLight.shadow.camera);
-        scene.add(helper);
-
-    })();*/
-
-
-
-
-
-
     
 
 

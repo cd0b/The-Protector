@@ -46,9 +46,6 @@ export async function loadModel(name, type, scale, animationList) {
         loader.load(`scene.gltf`, (gltf) => {
             const model = gltf.scene;
             model.scale.setScalar(scale);
-            model.traverse(c => {
-                c.castShadow = true;
-            });
             model.namelessActionList = [];
 
             const animations = gltf.animations;
@@ -67,9 +64,6 @@ export async function loadModel(name, type, scale, animationList) {
         loader.setPath(glb.getPath(glb.modelPath,name,""));
         loader.load(`${name}.fbx`, async function(model) {
             model.scale.setScalar(scale);
-            model.traverse(c => {
-                c.castShadow = true;
-            });
 
             model.actionNames = [];
 

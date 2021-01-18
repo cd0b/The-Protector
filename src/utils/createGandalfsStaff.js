@@ -16,17 +16,10 @@ export async function createGandalfsStaff(count) {
         const stoneGeo = new three.SphereGeometry(2, 5, 5);
         const stoneMat = new three.MeshBasicMaterial({color: 0xffffff});
         const stone = new three.Mesh(stoneGeo, stoneMat);
-        stone.castShadow = true;
 
         const light = new three.SpotLight({color: 0xff0000});
         light.position.y = 32;
         light.target.position.copy(new three.Vector3(-1,32,0));
-        light.castShadow = true;
-        light.shadow.mapSize.width = 1024;
-        light.shadow.mapSize.height = 1024;
-        light.shadow.camera.near = 500;
-        light.shadow.camera.far = 4000;
-        light.shadow.camera.fov = 30;
         light.angle = Math.PI / 6;
         light.intensity = 0.1;
         stone.add(light);
