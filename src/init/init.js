@@ -9,6 +9,7 @@ import {render} from './render.js';
 import { createMap } from './createMap.js';
 import {createSun} from './createSun.js';
 import { createListener } from './createListener.js';
+import {UI} from './../utils/UI/UI.js';
 
 export function init() {
     createScene();
@@ -20,4 +21,5 @@ export function init() {
     createMap();
     createSun();
     render();
+    new UI();
 }
